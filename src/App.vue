@@ -5,13 +5,10 @@
 </template>
 
 <style lang="less">
-.nav {
-  width: 750px;
-  height: 100px;
-  background-color: blue;
-}
-.button {
-  width: 375px;
-  height: 100px;
+html,
+body,
+#app {
+  width: 100%;
+  height: 100%;
 }
 </style>
