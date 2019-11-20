@@ -17,21 +17,29 @@
           placeholder="请输入密码"
         />
         <button class="code">获取验证码</button>
-        <van-button class="login" type="info">登录</van-button>
+        <van-button class="login" type="info" @click.prevent="reqLogin">登录</van-button>
       </van-cell-group>
     </form>
   </div>
 </template>
 <script>
 import '@/styles/font/index.css'
+import { login } from '@/api/user.js'
 export default {
   name: 'loginIndex',
   data () {
     return {
       user: {
-        mobile: '',
-        code: ''
+        mobile: '18801185985',
+        code: '246810'
       }
+    }
+  },
+  methods: {
+    // 登录
+    async reqLogin () {
+      const res = await login(this.user)
+      console.log(res)
     }
   }
 }
