@@ -4,6 +4,9 @@
     <form action>
       <van-cell-group>
         <van-field
+          v-validate="'required|mobile'"
+          name="phone"
+          :error-message="errors.first('phone')"
           class="icon-mobile userPhone"
           v-model="user.mobile"
           clearable
@@ -17,14 +20,23 @@
           placeholder="请输入密码"
         />
         <button class="code">获取验证码</button>
-        <van-button class="login" type="info" @click.prevent="reqLogin">登录</van-button>
+        <van-button
+          :loading="isLoading"
+          class="login"
+          type="info"
+          @click.prevent="reqLogin"
+        >登录</van-button>
       </van-cell-group>
     </form>
   </div>
 </template>
 <script>
 import '@/styles/font/index.css'
+import Vue from 'vue'
 import { login } from '@/api/user.js'
+import { mapMutations } from 'vuex'
+import { Toast } from 'vant'
+Vue.use(Toast)
 export default {
   name: 'loginIndex',
   data () {
@@ -32,14 +44,27 @@ export default {
       user: {
         mobile: '18801185985',
         code: '246810'
-      }
+      },
+      isLoading: false
     }
   },
   methods: {
+    ...mapMutations(['setUserToken']),
     // 登录
     async reqLogin () {
-      const res = await login(this.user)
-      console.log(res)
+      this.isLoading = true
+      this.$validator.validate().then(async valid => {
+        if (!valid) {
+          this.isLoading = false
+          return Toast.fail('登录失败')
+        } else {
+          console.log(this.$validator)
+          const res = await login(this.user)
+          this.setUserToken(res.token)
+          this.isLoading = false
+          this.$router.push('/')
+        }
+      })
     }
   }
 }

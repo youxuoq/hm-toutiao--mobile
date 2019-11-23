@@ -1,5 +1,5 @@
 <template>
-  <div class="home-index">
+  <div class="container-home">
     Home
   </div>
 </template>
@@ -9,5 +9,4 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-
 </style>
